@@ -1,1 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(8, 60px);
+            grid-template-rows: repeat(8, 60px);
+            margin: 20px auto;
+            border: 2px solid #333;
+            border-radius: 10px;
+        }
+        .square {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            text-align: center;
+        }
+        .light {
+            background-color: #f4f4f4;
+        }
+        .dark {
+            background-color: #333;
+            color: white;
+        }
+        .square:hover {
+            background-color: #ddd;
+        }
+        .piece {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chess Board</h1>
+    <div class="board">
+        <!-- Board squares will be inserted here by JavaScript -->
+    </div>
 
+    <script>
+        // Create the chess board
+        const board = document.querySelector('.board');
+        const pieces = {
+            'r': '♜', 'n': '♞', 'b': '♝', 'q': '♛', 'k': '♚', 'p': '♟',
+            'R': '♖', 'N': '♘', 'B': '♗', 'Q': '♕', 'K': '♔', 'P': '♙'
+        };
+
+        const initialBoard = [
+            ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
+            ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+            ['', '', '', '', '', '', '', ''],
+            ['', '', '', '', '', '', '', ''],
+            ['', '', '', '', '', '', '', ''],
+            ['', '', '', '', '', '', '', ''],
+            ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+            ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
+        ];
+
+        // Function to create the chessboard
+        function createBoard() {
+            for (let row = 0; row < 8; row++) {
+                for (let col = 0; col < 8; col++) {
+                    const square = document.createElement('div');
+                    const isLight = (row + col) % 2 === 0;
+                    square.classList.add('square', isLight ? 'light' : 'dark');
+                    const piece = initialBoard[row][col];
+                    if (piece) {
+                        square.innerHTML = `<span class="piece">${pieces[piece]}</span>`;
+                    }
+                    board.appendChild(square);
+                }
+            }
+        }
+
+        createBoard();
+    </script>
+</body>
+</html>
