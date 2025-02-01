@@ -43,4 +43,24 @@ body {
 /* Styling for the chess pieces to make them interactive */
 .piece {
     cursor: pointer;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 24px;
+    line-height: 40px;
+    color: white;  /* Default piece color */
+    text-align: center;
+}
+
+/* White pieces */
+.white {
+    background-color: #fff;
+    color: #000; /* Black color for the pieces */
+}
+
+/* Black pieces */
+.black {
+    background-color: #000;
+    color: #fff; /* White color for the pieces */
 }
