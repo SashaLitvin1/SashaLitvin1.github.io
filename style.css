@@ -27,12 +27,13 @@ body {
 
 /* Light square styling */
 .light {
-    background-color: #f4f4f4
+    background-color: #f4f4f4;
 }
 
 /* Dark square styling */
 .dark {
     background-color: #333;
+}
 
 /* Hover effect on squares */
 .square:hover {
