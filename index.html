@@ -59,8 +59,7 @@
     let currentPlayer = 'X';
     let board = Array(9).fill(null); // Keeps track of the board state (null, 'X', 'O')
     let gameStarted = false; // Tracks whether the game has started
-let moveCount = 0; // Counter to track the number of moves
-
+    let moveCount = 0; // Counter to track the number of moves
 
     // Function to check if there's a winner
     function checkWinner() {
@@ -82,9 +81,10 @@ let moveCount = 0; // Counter to track the number of moves
       }
       return false;
     }
-// Function to check if it's a draw (board is full and no winner)
+    
+    // Function to check if it's a draw (board is full and no winner)
 function checkDraw() {
-  if (moveCount === 9) { // Check if all 9 moves have been made
+  if (moveCount == 9) { // Check if all 9 moves have been made
     setTimeout(() => {
       alert("It's a draw!");
       startNewGame(); // Reset the game after the alert
@@ -93,7 +93,6 @@ function checkDraw() {
   }
   return false;
 }
-
     // Function to handle the click event
     function handleCellClick(cellId) {
       const cell = document.getElementById(cellId);
@@ -108,7 +107,7 @@ function checkDraw() {
       board[index] = currentPlayer;
       cell.textContent = currentPlayer;
       cell.classList.add('taken');
-  moveCount++;
+      moveCount = moveCount +1; 
 
       // Check if there is a winner
       if (checkWinner()) {
@@ -116,11 +115,11 @@ function checkDraw() {
         document.querySelectorAll('.cell').forEach(cell => cell.classList.add('taken'));
         return;
       }
-
-/ Check if it's a draw
+	 // Check if it's a draw
   if (checkDraw()) {
     return;
   }
+	
       // Switch players
       currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
     }
@@ -130,6 +129,7 @@ function checkDraw() {
       currentPlayer = 'X'; // Reset starting player
       board = Array(9).fill(null); // Reset the board state
       gameStarted = false; // Game is no longer in progress
+	moveCount = 0; 
 
       // Clear the cells on the grid
       const cells = document.querySelectorAll('.cell');
@@ -137,7 +137,6 @@ function checkDraw() {
         cell.textContent = '';
         cell.classList.remove('taken');
       });
-
 
       // Disable the cell click events before the game starts
       cells.forEach(cell => {
