@@ -1,18 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chess Game</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic Tac Toe</title>
+  <style>
+    .grid-container {
+      display: grid;
+      grid-template-columns: 150px 150px 150px;
+      gap: 10px;
+      background-color: #DFE6EB;
+      padding: 10px;
+    }
+
+    .grid-container > div {
+      background-color: rgba(255, 255, 255, 0.8);
+      text-align: center;
+      padding: 29px 0;
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    .grid-container > div:active {
+      background-color: red;
+    }
+
+    #start-button {
+      margin-top: 20px;
+    }
+
+    .cell.taken {
+      pointer-events: none;
+    }
+
+  </style>
 </head>
+
 <body>
-    <h1>Chess Board</h1>
-        <div class="game">
-            <div class="board">
-            </div>
-        </div>
-        <!-- Board squares will be inserted here by JavaScript -->
-    <script src="script.js"></script>
+
+  <h1>TIC TAC TOE</h1>
+  <p>Take turns to click the tiles</p>
+
+  <div class="grid-container">
+    <div class="cell" id="cell-0"></div>
+    <div class="cell" id="cell-1"></div>
+    <div class="cell" id="cell-2"></div>
+    <div class="cell" id="cell-3"></div>
+    <div class="cell" id="cell-4"></div>
+    <div class="cell" id="cell-5"></div>
+    <div class="cell" id="cell-6"></div>
+    <div class="cell" id="cell-7"></div>
+    <div class="cell" id="cell-8"></div>
+  </div>
+
+  <button id="start-button">Start Game</button>
+
+  <script>
+    let currentPlayer = 'X';
+    let board = Array(9).fill(null); // Keeps track of the board state (null, 'X', 'O')
+    let gameStarted = false; // Tracks whether the game has started
+let moveCount = 0; // Counter to track the number of moves
+
+
+    // Function to check if there's a winner
+    function checkWinner() {
+      const winPatterns = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+        [0, 4, 8], [2, 4, 6]             // Diagonals
+      ];
+
+      for (let pattern of winPatterns) {
+        const [a, b, c] = pattern;
+        if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+          setTimeout(() => {
+            alert(`${currentPlayer} wins!`);
+            startNewGame(); // Reset the game after the alert
+          }, 1000); // 1000 ms = 1 second delay
+          return true;
+        }
+      }
+      return false;
+    }
+// Function to check if it's a draw (board is full and no winner)
+function checkDraw() {
+  if (moveCount === 9) { // Check if all 9 moves have been made
+    setTimeout(() => {
+      alert("It's a draw!");
+      startNewGame(); // Reset the game after the alert
+    }, 1000); // 1000 ms = 1 second delay
+    return true;
+  }
+  return false;
+}
+
+    // Function to handle the click event
+    function handleCellClick(cellId) {
+      const cell = document.getElementById(cellId);
+      const index = parseInt(cellId.split('-')[1]);
+
+      // If the game hasn't started or the cell is already filled, do nothing
+      if (!gameStarted || board[index] !== null) {
+        return;
+      }
+
+      // Set the current player's symbol (X or O)
+      board[index] = currentPlayer;
+      cell.textContent = currentPlayer;
+      cell.classList.add('taken');
+  moveCount++;
+
+      // Check if there is a winner
+      if (checkWinner()) {
+        // Disable further clicks on the grid
+        document.querySelectorAll('.cell').forEach(cell => cell.classList.add('taken'));
+        return;
+      }
+
+/ Check if it's a draw
+  if (checkDraw()) {
+    return;
+  }
+      // Switch players
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    }
+
+    // Function to reset the game
+    function startNewGame() {
+      currentPlayer = 'X'; // Reset starting player
+      board = Array(9).fill(null); // Reset the board state
+      gameStarted = false; // Game is no longer in progress
+
+      // Clear the cells on the grid
+      const cells = document.querySelectorAll('.cell');
+      cells.forEach(cell => {
+        cell.textContent = '';
+        cell.classList.remove('taken');
+      });
+
+
+      // Disable the cell click events before the game starts
+      cells.forEach(cell => {
+        cell.removeEventListener('click', handleCellClick);
+      });
+
+      // Re-enable the start button to allow restarting the game
+      document.getElementById('start-button').disabled = false;
+    }
+
+    // Add event listeners for each cell
+    for (let i = 0; i < 9; i++) {
+      const cellId = `cell-${i}`;
+      const cell = document.getElementById(cellId);
+      cell.addEventListener('click', () => handleCellClick(cellId));
+    }
+
+    // Add event listener for the start button
+    document.getElementById('start-button').addEventListener('click', () => {
+      // Enable the game to start
+      gameStarted = true;
+
+      // Disable the start button after the game starts
+      document.getElementById('start-button').disabled = true;
+    });
+  </script>
+
 </body>
 </html>
